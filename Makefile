@@ -6,4 +6,4 @@ install:
 validate:
 	composer validate
 lint:
-	composer exec --verbose phpcs -- --standard=PSR12 public src
+	composer exec --verbose phpcs -- --standard=PSR12 routes app tests
