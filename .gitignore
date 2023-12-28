@@ -12,8 +12,6 @@
 .phpunit.result.cache
 .editorconfig
 .gitattributes
-package-lock.json
-package.json
 Homestead.json
 Homestead.yaml
 auth.json
