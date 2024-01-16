@@ -21,6 +21,7 @@
         "laravelcollective/html": "^6.4",
         "sentry/sentry-laravel": "^4.1",
         "spatie/laravel-html": "^3.4",
+        "spatie/laravel-query-builder": "^5.7",
         "squizlabs/php_codesniffer": "^3.8"
     },
     "require-dev": {
