@@ -10,12 +10,12 @@ use App\Models\TaskStatus;
 
 class TaskStatusTest extends TestCase
 {
+    use RefreshDatabase;
+
     private User $user;
     private TaskStatus $taskStatus;
     private string $fakeNameForTaskStatus;
     private string $fakeNameForTaskStatusUpdate;
-
-    use RefreshDatabase;
 
     public function setUp(): void
     {
@@ -100,9 +100,7 @@ class TaskStatusTest extends TestCase
     {
         $response = $this
             ->delete(route('task_statuses.destroy', ['task_status' => $this->taskStatus]));
-
         $response->assertStatus(403);
-
     }
 
     public function testDestroy(): void
