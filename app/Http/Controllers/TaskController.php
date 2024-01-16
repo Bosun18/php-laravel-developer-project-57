@@ -88,32 +88,62 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Task $task)
     {
-        //
+        $labels = $task->labels;
+
+        return view('Task.show', compact('task', 'labels'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Task $task)
     {
-        //
+        if (Auth::user() === null) {
+            abort(403);
+        }
+
+        $taskStatuses = TaskStatus::all();
+        $users = User::select('name', 'id')->pluck('name', 'id');
+        $taskLabels = $task->labels;
+        $labels = Label::select('name', 'id')->pluck('name', 'id');
+
+        return view('Task.edit', compact('task', 'taskStatuses', 'users', 'labels', 'taskLabels'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateTaskRequest $request, Task $task)
     {
-        //
+        if (Auth::user() === null) {
+            abort(403);
+        }
+
+        $request->validated();
+
+        $data = $request->except('labels');
+
+        $labels = collect($request->input('labels'))
+            ->filter(fn($label) => $label !== null);
+
+        $task->update($data);
+
+        $task->labels()->sync($labels);
+
+        flash(__('messages.task.updated'))->success();
+
+        return redirect()->route('tasks.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Task $task)
     {
-        //
+        if (Auth::user() === null) {
+            abort(403);
+        }
     }
 }
