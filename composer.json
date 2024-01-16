@@ -19,6 +19,7 @@
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.3",
         "sentry/sentry-laravel": "^4.1",
+        "spatie/laravel-html": "^3.4",
         "squizlabs/php_codesniffer": "^3.8"
     },
     "require-dev": {
