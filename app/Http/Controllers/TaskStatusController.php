@@ -6,12 +6,17 @@ use Illuminate\Http\Request;
 
 class TaskStatusController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(TaskStatus::class, 'task_status');
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $taskStatuses = TaskStatus::all();
+        return view('TaskStatus.index', compact('taskStatuses'));
     }
 
     /**
@@ -19,7 +24,8 @@ class TaskStatusController extends Controller
      */
     public function create()
     {
-        //
+        $taskStatus = new TaskStatus();
+        return view('TaskStatus.create', compact('taskStatus'));
     }
 
     /**
@@ -27,15 +33,13 @@ class TaskStatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $data = $request->validated();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        TaskStatus::create($data);
+
+        flash(__('messages.status.created'))->success();
+
+        return redirect()->route('task_statuses.index');
     }
 
     /**
@@ -43,7 +47,7 @@ class TaskStatusController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('TaskStatus.edit', compact('taskStatus'));
     }
 
     /**
@@ -51,7 +55,13 @@ class TaskStatusController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->validated();
+
+        $taskStatus->update($data);
+
+        flash(__('messages.status.modified'))->success();
+
+        return redirect()->route('task_statuses.index');
     }
 
     /**
@@ -59,6 +69,14 @@ class TaskStatusController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        if ($taskStatus->tasks()->exists()) {
+            flash(__('messages.status.deleted.error'))->error();
+        } else {
+            $taskStatus->delete();
+
+            flash(__('messages.status.deleted'))->success();
+        };
+
+        return redirect()->route('task_statuses.index');
     }
 }
