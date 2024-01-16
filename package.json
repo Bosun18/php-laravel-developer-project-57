@@ -19,6 +19,6 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
-        "openai": "^4.24.2"
+        "@rails/ujs": "^7.1.2"
     }
 }
