@@ -16,7 +16,8 @@ class TaskController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {        $users = User::all()->pluck('name', 'id');
+    {
+        $users = User::all()->pluck('name', 'id');
         $taskStatuses = TaskStatus::select('name', 'id')->pluck('name', 'id');
 
         $tasks = QueryBuilder::for(Task::class)
