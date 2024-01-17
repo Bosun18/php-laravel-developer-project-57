@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreTaskStatusRequest;
+use App\Http\Requests\UpdateTaskStatusRequest;
+use App\Models\TaskStatus;
+use Illuminate\Support\Facades\Auth;
 
 class TaskStatusController extends Controller
 {
@@ -31,7 +34,7 @@ class TaskStatusController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTaskStatusRequest $request)
     {
         $data = $request->validated();
 
@@ -45,7 +48,7 @@ class TaskStatusController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(TaskStatus $taskStatus)
     {
         return view('TaskStatus.edit', compact('taskStatus'));
     }
@@ -53,7 +56,7 @@ class TaskStatusController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateTaskStatusRequest $request, TaskStatus $taskStatus)
     {
         $data = $request->validated();
 
@@ -67,7 +70,7 @@ class TaskStatusController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(TaskStatus $taskStatus)
     {
         if ($taskStatus->tasks()->exists()) {
             flash(__('messages.status.deleted.error'))->error();
