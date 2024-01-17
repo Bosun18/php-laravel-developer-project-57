@@ -20,7 +20,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $users = User::all()->pluck('name', 'id');
+        $users = User::pluck('name', 'id');
         $taskStatuses = TaskStatus::select('name', 'id')->pluck('name', 'id');
 
         $tasks = QueryBuilder::for(Task::class)
@@ -142,7 +142,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        if ((Auth::user() === null) || (Auth::id() !== $task->createdByUser->id)) {
+        if (!Auth::check() || (Auth::id() !== $task->createdByUser->id)) {
             abort(403);
         }
     }
