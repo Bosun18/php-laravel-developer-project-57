@@ -5,7 +5,7 @@
     <div class="grid col-span-full">
         <h1 class="mb-5 max-w-2xl text-4xl md:text-4xl xl:text-5xl">{{ __('strings.create task') }}</h1>
         <div>
-            {{ Form::open(['route' => 'task.store']) }}
+            {{ Form::open(['route' => 'tasks.store']) }}
             <div>
                 {{ Form::label("name", __('strings.name')) }}
             </div>
