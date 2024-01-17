@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Models\Label;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreLabelRequest;
 use App\Http\Requests\UpdateLabelRequest;
 
 class LabelController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Label::class, 'label');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -23,10 +28,6 @@ class LabelController extends Controller
      */
     public function create()
     {
-        if (Auth::user() === null) {
-            abort(403);
-        }
-
         $label = new Label();
         return view('Label.create', compact('label'));
     }
@@ -36,9 +37,6 @@ class LabelController extends Controller
      */
     public function store(StoreLabelRequest $request)
     {
-        if (Auth::user() === null) {
-            abort(403);
-        }
         $data = $request->validated();
 
         Label::create($data);
@@ -53,9 +51,6 @@ class LabelController extends Controller
      */
     public function edit(Label $label)
     {
-        if (Auth::user() === null) {
-            abort(403);
-        }
         return view('Label.edit', compact('label'));
     }
 
@@ -64,10 +59,6 @@ class LabelController extends Controller
      */
     public function update(UpdateLabelRequest $request, Label $label)
     {
-        if (Auth::user() === null) {
-            abort(403);
-        }
-
         $data = $request->validated();
 
         $label->update($data);
@@ -82,10 +73,6 @@ class LabelController extends Controller
      */
     public function destroy(Label $label)
     {
-        if (Auth::user() === null) {
-            abort(403);
-        }
-
         if ($label->tasks()->exists()) {
             flash(__('messages.label.deleted.error'))->error();
         } else {
