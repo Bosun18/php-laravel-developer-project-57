@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Label;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreLabelRequest;
