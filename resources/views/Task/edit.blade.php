@@ -53,6 +53,7 @@
                     {{ Form::select('assigned_to_id', $users, $task->assigned_to_user->id, ['class' => 'rounded border border-gray-300 w-1/3 p-2 bg-white', 'placeholder' => '----------']) }}
                 @endif
             </div>
+
             @error('assigned_to_id')
                 <div class="text-rose-600">
                     {{ $message }}

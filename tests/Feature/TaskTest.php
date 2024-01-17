@@ -57,6 +57,9 @@ class TaskTest extends TestCase
         $response->assertOk();
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function testStore(): void
     {
         $response = $this
@@ -92,6 +95,9 @@ class TaskTest extends TestCase
         $response->assertOk();
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function testUpdate(): void
     {
         $response = $this
@@ -120,6 +126,9 @@ class TaskTest extends TestCase
         $response->assertStatus(403);
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function testDestroy(): void
     {
         $response = $this
