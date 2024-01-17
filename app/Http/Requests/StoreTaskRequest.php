@@ -31,7 +31,7 @@ class StoreTaskRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'name.unique' => __('strings.task exists'),
