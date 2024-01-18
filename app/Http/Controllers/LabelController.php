@@ -16,7 +16,9 @@ class LabelController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): \Illuminate\Contracts\View\View|
+        \Illuminate\Foundation\Application|
+        \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $labels = Label::all();
         return view('Label.index', compact('labels'));
@@ -25,7 +27,9 @@ class LabelController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): \Illuminate\Contracts\View\View|
+        \Illuminate\Foundation\Application|
+        \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $label = new Label();
         return view('Label.create', compact('label'));
@@ -34,7 +38,7 @@ class LabelController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreLabelRequest $request)
+    public function store(StoreLabelRequest $request): \Illuminate\Http\RedirectResponse
     {
         $data = $request->validated();
 
@@ -48,7 +52,9 @@ class LabelController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Label $label)
+    public function edit(Label $label): \Illuminate\Contracts\View\View|
+        \Illuminate\Foundation\Application|
+        \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('Label.edit', compact('label'));
     }
@@ -56,7 +62,7 @@ class LabelController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateLabelRequest $request, Label $label)
+    public function update(UpdateLabelRequest $request, Label $label): \Illuminate\Http\RedirectResponse
     {
         $data = $request->validated();
 
@@ -70,7 +76,7 @@ class LabelController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Label $label)
+    public function destroy(Label $label): \Illuminate\Http\RedirectResponse
     {
         if ($label->tasks()->exists()) {
             flash(__('messages.label.deleted.error'))->error();

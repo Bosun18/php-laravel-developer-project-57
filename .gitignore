@@ -5,13 +5,10 @@
 /public/storage
 /storage/*.key
 /vendor
-/node_modules
 .env
 .env.backup
 .env.production
 .phpunit.result.cache
-.editorconfig
-.gitattributes
 Homestead.json
 Homestead.yaml
 auth.json
@@ -20,3 +17,5 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/.phpunit.result.cache
+/build/logs

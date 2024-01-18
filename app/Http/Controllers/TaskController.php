@@ -22,9 +22,12 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): \Illuminate\Contracts\View\View|
+        \Illuminate\Foundation\Application|
+        \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $users = User::pluck('name', 'id');
+
         $taskStatuses = TaskStatus::select('name', 'id')->pluck('name', 'id');
 
         $tasks = QueryBuilder::for(Task::class)
@@ -37,21 +40,23 @@ class TaskController extends Controller
             ->orderBy('id')
             ->paginate(15);
 
-        return view('Task.index', [
-            'tasks' => $tasks,
-            'users' => $users,
-            'taskStatuses' => $taskStatuses,
-            'activeFilter' => request()->get('filter', [
-                'status_id' => '',
-                'assigned_to_id' => '',
-                'created_by_id' => ''
-            ])]);
+            return view('Task.index', [
+                'tasks' => $tasks,
+                'users' => $users,
+                'taskStatuses' => $taskStatuses,
+                'activeFilter' => request()->get('filter', [
+                    'status_id' => '',
+                    'assigned_to_id' => '',
+                    'created_by_id' => ''
+                ])]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): \Illuminate\Contracts\View\View|
+        \Illuminate\Foundation\Application|
+        \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $taskStatuses = TaskStatus::select('name', 'id')->pluck('name', 'id');
         $users = User::select('name', 'id')->pluck('name', 'id');
@@ -63,7 +68,7 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTaskRequest $request)
+    public function store(StoreTaskRequest $request): \Illuminate\Http\RedirectResponse
     {
         $request->validated();
 
@@ -71,7 +76,7 @@ class TaskController extends Controller
         $data['created_by_id'] = optional(auth()->user())->id;
 
         $labels = collect($request->input('labels'))
-            ->filter(fn($label) => $label !== null);
+        ->filter(fn($label) => $label !== null);
 
         $task = Task::create($data);
 
@@ -85,7 +90,9 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Task $task)
+    public function show(Task $task): \Illuminate\Contracts\View\View|
+        \Illuminate\Foundation\Application|
+        \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $labels = $task->labels;
 
@@ -95,7 +102,9 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Task $task)
+    public function edit(Task $task): \Illuminate\Contracts\View\View|
+        \Illuminate\Foundation\Application|
+        \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $taskStatuses = TaskStatus::all();
         $users = User::select('name', 'id')->pluck('name', 'id');
@@ -108,7 +117,7 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTaskRequest $request, Task $task)
+    public function update(UpdateTaskRequest $request, Task $task): \Illuminate\Http\RedirectResponse
     {
         $request->validated();
 
@@ -129,12 +138,13 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy(Task $task): \Illuminate\Http\RedirectResponse
     {
         $task->labels()->detach();
         $task->delete();
 
         flash(__('messages.task.deleted'), 'success');
+
         return redirect()->route('tasks.index');
     }
 }

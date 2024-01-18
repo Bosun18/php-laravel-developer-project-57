@@ -45,6 +45,7 @@ class TaskStatusController extends Controller
         return redirect()->route('task_statuses.index');
     }
 
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -78,7 +79,7 @@ class TaskStatusController extends Controller
             $taskStatus->delete();
 
             flash(__('messages.status.deleted'))->success();
-        }
+        };
 
         return redirect()->route('task_statuses.index');
     }
