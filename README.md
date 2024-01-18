@@ -13,4 +13,6 @@
 #### 1. `git clone git@github.com:Bosun18/php-laravel-developer-project-57.git`
 #### 2. `cd php-laravel-developer-project-57`
 #### 3. `make install`
+#### 4. `php artisan migrate:refresh --seed --force`
+#### 5. `php artisan serve`
 #### Посмотреть можно тут: [Ссылка на проект](https://laravel-project-7t89.onrender.com/)
