@@ -25,3 +25,5 @@ jobs:
         run: make validate
       - name: Run linter
         run: make lint
+      - name: Test
+        run: make test
