@@ -11,16 +11,16 @@ class LabelTest extends TestCase
 {
     private User $user;
     private Label $label;
-    private string $fakeNameForLabel;
-    private string $fakeNameForUpdateLabel;
+    private string $nameForLabel;
+    private string $nameForUpdateLabel;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
         $this->label = Label::factory()->create();
-        $this->fakeNameForLabel = Label::factory()->create();
-        $this->fakeNameForUpdateLabel = Label::factory()->create();
+        $this->nameForLabel = Label::factory()->create();
+        $this->nameForUpdateLabel = Label::factory()->create();
     }
 
     public function testIndex(): void
@@ -42,11 +42,11 @@ class LabelTest extends TestCase
         $response = $this
             ->actingAs($this->user)
             ->post(route('labels.store'), [
-                'name' => $this->fakeNameForLabel
+                'name' => $this->nameForLabel
             ]);
 
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('labels', ['name' => $this->fakeNameForLabel]);
+        $this->assertDatabaseHas('labels', ['name' => $this->nameForLabel]);
         $response->assertRedirect(route('labels.index'));
     }
 
@@ -74,11 +74,11 @@ class LabelTest extends TestCase
         $response = $this
             ->actingAs($this->user)
             ->patch(route('labels.update', ['label' => $this->label]), [
-                'name' => $this->fakeNameForUpdateLabel
+                'name' => $this->nameForUpdateLabel
             ]);
 
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('labels', ['name' => $this->fakeNameForUpdateLabel]);
+        $this->assertDatabaseHas('labels', ['name' => $this->nameForUpdateLabel]);
         $response->assertRedirect(route('labels.index'));
     }
 

@@ -11,16 +11,16 @@ class TaskStatusTest extends TestCase
 {
     private User $user;
     private TaskStatus $taskStatus;
-    private string $fakeNameForTaskStatus;
-    private string $fakeNameForTaskStatusUpdate;
+    private string $nameForTaskStatus;
+    private string $nameForTaskStatusUpdate;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
         $this->taskStatus = TaskStatus::factory()->create();
-        $this->fakeNameForTaskStatus = TaskStatus::factory()->create();
-        $this->fakeNameForTaskStatusUpdate = TaskStatus::factory()->create();
+        $this->nameForTaskStatus = TaskStatus::factory()->create();
+        $this->nameForTaskStatusUpdate = TaskStatus::factory()->create();
     }
 
 
@@ -43,11 +43,11 @@ class TaskStatusTest extends TestCase
         $response = $this
             ->actingAs($this->user)
             ->post(route('task_statuses.store'), [
-                'name' => $this->fakeNameForTaskStatus
+                'name' => $this->nameForTaskStatus
             ]);
 
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('task_statuses', ['name' => $this->fakeNameForTaskStatus]);
+        $this->assertDatabaseHas('task_statuses', ['name' => $this->nameForTaskStatus]);
         $response->assertRedirect(route('task_statuses.index'));
     }
 
@@ -75,11 +75,11 @@ class TaskStatusTest extends TestCase
         $response = $this
             ->actingAs($this->user)
             ->patch(route('task_statuses.update', ['task_status' => $this->taskStatus]), [
-                'name' => $this->fakeNameForTaskStatusUpdate
+                'name' => $this->nameForTaskStatusUpdate
             ]);
 
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('task_statuses', ['name' => $this->fakeNameForTaskStatusUpdate]);
+        $this->assertDatabaseHas('task_statuses', ['name' => $this->nameForTaskStatusUpdate]);
         $response->assertRedirect(route('task_statuses.index'));
     }
 
