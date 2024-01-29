@@ -57,7 +57,7 @@ class LabelTest extends TestCase
                 'name' => 'newLabel'
             ]);
 
-        $response->assertStatus(403);
+        $response->assertStatus(401);
     }
 
     public function testEdit(): void
