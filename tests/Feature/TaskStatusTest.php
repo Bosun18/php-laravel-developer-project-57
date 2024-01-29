@@ -9,8 +9,6 @@ use App\Models\TaskStatus;
 
 class TaskStatusTest extends TestCase
 {
-    use RefreshDatabase;
-
     private User $user;
     private TaskStatus $taskStatus;
     private string $fakeNameForTaskStatus;

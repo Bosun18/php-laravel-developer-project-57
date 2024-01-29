@@ -10,8 +10,6 @@ use App\Models\Task;
 
 class TaskTest extends TestCase
 {
-    use RefreshDatabase;
-
     private User $user;
     private User $newUser;
     private Task $task;

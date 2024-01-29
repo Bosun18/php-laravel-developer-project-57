@@ -9,8 +9,6 @@ use App\Models\Label;
 
 class LabelTest extends TestCase
 {
-    use RefreshDatabase;
-
     private User $user;
     private Label $label;
     private string $fakeNameForLabel;
