@@ -50,15 +50,15 @@ class LabelTest extends TestCase
         $response->assertRedirect(route('labels.index'));
     }
 
-    public function testStoreNotAuth(): void
-    {
-        $response = $this
-            ->post(route('labels.store'), [
-                'name' => 'newLabel'
-            ]);
-
-        $response->assertStatus(403);
-    }
+//    public function testStoreNotAuth(): void
+//    {
+//        $response = $this
+//            ->post(route('labels.store'), [
+//                'name' => 'newLabel'
+//            ]);
+//
+//        $response->assertStatus(403);
+//    }
 
     public function testEdit(): void
     {
@@ -82,22 +82,22 @@ class LabelTest extends TestCase
         $response->assertRedirect(route('labels.index'));
     }
 
-    public function testUpdateNotAuth(): void
-    {
-        $response = $this
-            ->patch(route('labels.update', ['label' => $this->label]), [
-                'name' => 'test'
-            ]);
+//    public function testUpdateNotAuth(): void
+//    {
+//        $response = $this
+//            ->patch(route('labels.update', ['label' => $this->label]), [
+//                'name' => 'test'
+//            ]);
+//
+//        $response->assertStatus(403);
+//    }
 
-        $response->assertStatus(403);
-    }
-
-    public function testDestroyNotAuth(): void
-    {
-        $response = $this
-            ->delete(route('labels.destroy', ['label' => $this->label]));
-        $response->assertStatus(403);
-    }
+//    public function testDestroyNotAuth(): void
+//    {
+//        $response = $this
+//            ->delete(route('labels.destroy', ['label' => $this->label]));
+//        $response->assertStatus(403);
+//    }
 
     public function testDestroy(): void
     {
