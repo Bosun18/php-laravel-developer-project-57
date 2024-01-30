@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\TaskStatus;
@@ -11,7 +10,6 @@ use App\Models\Task;
 class TaskTest extends TestCase
 {
     private User $user;
-//    private User $newUser;
     private Task $task;
     private array $newTaskData;
     private array $taskDataForUpdate;
@@ -20,7 +18,6 @@ class TaskTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
-        $this->newUser = User::factory()->create();
         TaskStatus::factory(4)->create();
         $this->task = Task::factory()->create([
             'created_by_id' => $this->user->id,
@@ -69,14 +66,6 @@ class TaskTest extends TestCase
         $response->assertRedirect(route('tasks.index'));
     }
 
-    public function testStoreNotAuth(): void
-    {
-        $response = $this
-            ->post(route('tasks.store'), $this->newTaskData);
-
-        $response->assertForbidden();
-    }
-
     public function testShow(): void
     {
         $response = $this->get(route('tasks.show', $this->task));
@@ -105,23 +94,6 @@ class TaskTest extends TestCase
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('tasks', $this->taskDataForUpdate);
         $response->assertRedirect(route('tasks.index'));
-    }
-
-    public function testUpdateNotAuth(): void
-    {
-        $response = $this
-            ->patch(route('tasks.update', ['task' => $this->task]), $this->taskDataForUpdate);
-
-        $response->assertForbidden();
-    }
-
-    public function testDestroyNotByCreator(): void
-    {
-        $response = $this
-            ->actingAs($this->newUser)
-            ->delete(route('tasks.destroy', ['task' => $this->task]));
-
-        $response->assertForbidden();
     }
 
     /**

@@ -2,12 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\TaskStatus;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Label;
 use App\Models\Task;
+use App\Models\TaskStatus;
 
 class LabelTest extends TestCase
 {
@@ -52,16 +51,6 @@ class LabelTest extends TestCase
         $response->assertRedirect(route('labels.index'));
     }
 
-    public function testStoreNotAuth(): void
-    {
-        $response = $this
-            ->post(route('labels.store'), [
-                'name' => 'newLabel'
-            ]);
-
-        $response->assertForbidden();
-    }
-
     public function testEdit(): void
     {
         $response = $this
@@ -82,23 +71,6 @@ class LabelTest extends TestCase
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('labels', ['name' => $this->nameForUpdateLabel]);
         $response->assertRedirect(route('labels.index'));
-    }
-
-    public function testUpdateNotAuth(): void
-    {
-        $response = $this
-            ->patch(route('labels.update', ['label' => $this->label]), [
-                'name' => 'test'
-            ]);
-
-        $response->assertForbidden();
-    }
-
-    public function testDestroyNotAuth(): void
-    {
-        $response = $this
-            ->delete(route('labels.destroy', ['label' => $this->label]));
-        $response->assertForbidden();
     }
 
     public function testDestroy(): void

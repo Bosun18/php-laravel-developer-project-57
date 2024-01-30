@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
-use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Models\User;
 use App\Models\TaskStatus;
 use App\Models\Label;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 

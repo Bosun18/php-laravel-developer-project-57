@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Label;
 use App\Http\Requests\StoreLabelRequest;
 use App\Http\Requests\UpdateLabelRequest;
-use Illuminate\Http\Request;
 
 class LabelController extends Controller
 {

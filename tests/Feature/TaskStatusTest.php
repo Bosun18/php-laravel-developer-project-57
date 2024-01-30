@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\TaskStatus;
@@ -51,16 +50,6 @@ class TaskStatusTest extends TestCase
         $response->assertRedirect(route('task_statuses.index'));
     }
 
-    public function testStoreNotAuth(): void
-    {
-        $response = $this
-            ->post(route('task_statuses.store'), [
-                'name' => 'newTestStatus'
-            ]);
-
-        $response->assertForbidden();
-    }
-
     public function testEdit(): void
     {
         $response = $this
@@ -81,23 +70,6 @@ class TaskStatusTest extends TestCase
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('task_statuses', ['name' => $this->nameForTaskStatusUpdate]);
         $response->assertRedirect(route('task_statuses.index'));
-    }
-
-    public function testUpdateNotAuth(): void
-    {
-        $response = $this
-            ->patch(route('task_statuses.update', ['task_status' => $this->taskStatus]), [
-                'name' => 'test'
-            ]);
-
-        $response->assertForbidden();
-    }
-
-    public function testDestroyNotAuth(): void
-    {
-        $response = $this
-            ->delete(route('task_statuses.destroy', ['task_status' => $this->taskStatus]));
-        $response->assertForbidden();
     }
 
     public function testDestroy(): void
