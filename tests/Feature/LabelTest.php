@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Models\TaskStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Label;
+use App\Models\Task;
 
 class LabelTest extends TestCase
 {
@@ -50,15 +52,15 @@ class LabelTest extends TestCase
         $response->assertRedirect(route('labels.index'));
     }
 
-//    public function testStoreNotAuth(): void
-//    {
-//        $response = $this
-//            ->post(route('labels.store'), [
-//                'name' => 'newLabel'
-//            ]);
-//
-//        $response->assertStatus(403);
-//    }
+    public function testStoreNotAuth(): void
+    {
+        $response = $this
+            ->post(route('labels.store'), [
+                'name' => 'newLabel'
+            ]);
+
+        $response->assertForbidden();
+    }
 
     public function testEdit(): void
     {
@@ -82,22 +84,22 @@ class LabelTest extends TestCase
         $response->assertRedirect(route('labels.index'));
     }
 
-//    public function testUpdateNotAuth(): void
-//    {
-//        $response = $this
-//            ->patch(route('labels.update', ['label' => $this->label]), [
-//                'name' => 'test'
-//            ]);
-//
-//        $response->assertStatus(403);
-//    }
+    public function testUpdateNotAuth(): void
+    {
+        $response = $this
+            ->patch(route('labels.update', ['label' => $this->label]), [
+                'name' => 'test'
+            ]);
 
-//    public function testDestroyNotAuth(): void
-//    {
-//        $response = $this
-//            ->delete(route('labels.destroy', ['label' => $this->label]));
-//        $response->assertStatus(403);
-//    }
+        $response->assertForbidden();
+    }
+
+    public function testDestroyNotAuth(): void
+    {
+        $response = $this
+            ->delete(route('labels.destroy', ['label' => $this->label]));
+        $response->assertForbidden();
+    }
 
     public function testDestroy(): void
     {
@@ -108,5 +110,20 @@ class LabelTest extends TestCase
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseMissing('labels', ['id' => $this->label->id]);
         $response->assertRedirect(route('labels.index'));
+    }
+
+    public function testDestroyLabelWithAssociatedTask(): void
+    {
+        $label = Label::factory()->create();
+        $taskStatus = TaskStatus::factory()->create();
+        $task = Task::factory()->create([
+            'status_id' => $taskStatus->id,
+        ]);
+        $task->labels()->attach($label);
+
+        $response = $this->actingAs($this->user)
+            ->delete(route('labels.destroy', ['label' => $label]));
+        $this->assertDatabaseHas('labels', ['id' => $label->id]);
+        $response->assertStatus(302);
     }
 }

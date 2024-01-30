@@ -20,7 +20,7 @@ class TaskTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
-//        $this->newUser = User::factory()->create();
+        $this->newUser = User::factory()->create();
         TaskStatus::factory(4)->create();
         $this->task = Task::factory()->create([
             'created_by_id' => $this->user->id,
@@ -69,13 +69,13 @@ class TaskTest extends TestCase
         $response->assertRedirect(route('tasks.index'));
     }
 
-//    public function testStoreNotAuth(): void
-//    {
-//        $response = $this
-//            ->post(route('tasks.store'), $this->newTaskData);
-//
-//        $response->assertStatus(403);
-//    }
+    public function testStoreNotAuth(): void
+    {
+        $response = $this
+            ->post(route('tasks.store'), $this->newTaskData);
+
+        $response->assertForbidden();
+    }
 
     public function testShow(): void
     {
@@ -107,22 +107,22 @@ class TaskTest extends TestCase
         $response->assertRedirect(route('tasks.index'));
     }
 
-//    public function testUpdateNotAuth(): void
-//    {
-//        $response = $this
-//            ->patch(route('tasks.update', ['task' => $this->task]), $this->taskDataForUpdate);
-//
-//        $response->assertStatus(403);
-//    }
+    public function testUpdateNotAuth(): void
+    {
+        $response = $this
+            ->patch(route('tasks.update', ['task' => $this->task]), $this->taskDataForUpdate);
 
-//    public function testDestroyNotByCreator(): void
-//    {
-//        $response = $this
-//            ->actingAs($this->newUser)
-//            ->delete(route('tasks.destroy', ['task' => $this->task]));
-//
-//        $response->assertStatus(403);
-//    }
+        $response->assertForbidden();
+    }
+
+    public function testDestroyNotByCreator(): void
+    {
+        $response = $this
+            ->actingAs($this->newUser)
+            ->delete(route('tasks.destroy', ['task' => $this->task]));
+
+        $response->assertForbidden();
+    }
 
     /**
      * @throws \JsonException

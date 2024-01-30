@@ -51,15 +51,15 @@ class TaskStatusTest extends TestCase
         $response->assertRedirect(route('task_statuses.index'));
     }
 
-//    public function testStoreNotAuth(): void
-//    {
-//        $response = $this
-//            ->post(route('task_statuses.store'), [
-//                'name' => 'newTestStatus'
-//            ]);
-//
-//        $response->assertStatus(403);
-//    }
+    public function testStoreNotAuth(): void
+    {
+        $response = $this
+            ->post(route('task_statuses.store'), [
+                'name' => 'newTestStatus'
+            ]);
+
+        $response->assertForbidden();
+    }
 
     public function testEdit(): void
     {
@@ -83,22 +83,22 @@ class TaskStatusTest extends TestCase
         $response->assertRedirect(route('task_statuses.index'));
     }
 
-//    public function testUpdateNotAuth(): void
-//    {
-//        $response = $this
-//            ->patch(route('task_statuses.update', ['task_status' => $this->taskStatus]), [
-//                'name' => 'test'
-//            ]);
-//
-//        $response->assertStatus(403);
-//    }
+    public function testUpdateNotAuth(): void
+    {
+        $response = $this
+            ->patch(route('task_statuses.update', ['task_status' => $this->taskStatus]), [
+                'name' => 'test'
+            ]);
 
-//    public function testDestroyNotAuth(): void
-//    {
-//        $response = $this
-//            ->delete(route('task_statuses.destroy', ['task_status' => $this->taskStatus]));
-//        $response->assertStatus(403);
-//    }
+        $response->assertForbidden();
+    }
+
+    public function testDestroyNotAuth(): void
+    {
+        $response = $this
+            ->delete(route('task_statuses.destroy', ['task_status' => $this->taskStatus]));
+        $response->assertForbidden();
+    }
 
     public function testDestroy(): void
     {
