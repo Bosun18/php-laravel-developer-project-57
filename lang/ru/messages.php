@@ -13,4 +13,7 @@ return [
     'label.modified' => 'Метка успешно изменена',
     'label.deleted' => 'Метка успешно удалена',
     'label.deleted.error' => 'Не удалось удалить метку',
+    'welcome' => 'Привет от Хекслета!',
+    'description' => 'Это простой менеджер задач на Laravel',
+    'button' => 'Нажми меня',
 ];
