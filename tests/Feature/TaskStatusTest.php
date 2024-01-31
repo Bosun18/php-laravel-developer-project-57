@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\TaskStatus;
+use App\Models\Task;
 
 class TaskStatusTest extends TestCase
 {
@@ -81,5 +82,19 @@ class TaskStatusTest extends TestCase
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseMissing('labels', ['id' => $this->taskStatus->id]);
         $response->assertRedirect(route('task_statuses.index'));
+    }
+
+    public function testDestroyTaskStatusWithAssociatedTasks(): void
+    {
+        $taskStatus = TaskStatus::factory()->create();
+        Task::factory()->create([
+            'status_id' => $taskStatus->id,
+        ]);
+
+        $response = $this->actingAs($this->user)
+            ->delete(route('task_statuses.destroy', ['task_status' => $taskStatus]));
+
+        $this->assertDatabaseHas('task_statuses', ['id' => $taskStatus->id]);
+        $response->assertStatus(302);
     }
 }
