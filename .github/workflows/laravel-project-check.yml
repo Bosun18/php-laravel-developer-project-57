@@ -19,13 +19,27 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
+          
       - name: Setup project
         run: make setup
+        
       - name: Install dependencies
         run: make install
+        
       - name: Validate json
         run: make validate
+        
       - name: Run linter
         run: make lint
+        
       - name: Test
         run: make test
+        
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v5.0.0
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+            coverageCommand: make test-coverage
+            coverageLocations: ${{github.workplace}}/build/logs/clover.xml:clover
+            debug: true
