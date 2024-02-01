@@ -60,11 +60,13 @@
                     <td>{{ $task->created_at->format('d.m.Y') }}</td>
                     <td>
                         @auth
-                            @if ($task->created_by_id === Auth::id())
+                            @can('delete', $task)
                                 <a data-method="delete" data-confirm="{{ __('strings.are you sure') }}" class="text-red-600 hover:text-red-900" href="{{ route('tasks.destroy', $task->id) }}">{{ __('strings.delete') }}</a>
-                            @endif
-                            <a class="text-blue-600 hover:text-blue-900" href="{{ route('tasks.edit', $task) }}">{{ __('strings.edit') }}</a>
+                            @endcan
 
+                            @can('update', $task)
+                                <a class="text-blue-600 hover:text-blue-900" href="{{ route('tasks.edit', $task) }}">{{ __('strings.edit') }}</a>
+                            @endcan
                         @endauth
                     </td>
                 </tr>

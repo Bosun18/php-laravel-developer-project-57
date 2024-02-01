@@ -104,6 +104,7 @@ class TaskController extends Controller
         \Illuminate\Foundation\Application|
         \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
+        $this->authorize('update', $task);
         $taskStatuses = TaskStatus::all();
         $users = User::select('name', 'id')->pluck('name', 'id');
         $taskLabels = $task->labels;
@@ -117,6 +118,8 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task): \Illuminate\Http\RedirectResponse
     {
+        $this->authorize('update', $task);
+
         $request->validated();
 
         $data = $request->except('labels');
