@@ -11,16 +11,16 @@ class TaskStatusTest extends TestCase
 {
     private User $user;
     private TaskStatus $taskStatus;
-    private string $nameForTaskStatus;
-    private string $nameForTaskStatusUpdate;
+    private string $name;
+    private string $nameUpdate;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
         $this->taskStatus = TaskStatus::factory()->create();
-        $this->nameForTaskStatus = TaskStatus::factory()->create();
-        $this->nameForTaskStatusUpdate = TaskStatus::factory()->create();
+        $this->name = TaskStatus::factory()->make()->name;
+        $this->nameUpdate = TaskStatus::factory()->make()->name;
     }
 
 
@@ -43,11 +43,11 @@ class TaskStatusTest extends TestCase
         $response = $this
             ->actingAs($this->user)
             ->post(route('task_statuses.store'), [
-                'name' => $this->nameForTaskStatus
+                'name' => $this->name
             ]);
 
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('task_statuses', ['name' => $this->nameForTaskStatus]);
+        $this->assertDatabaseHas('task_statuses', ['name' => $this->name]);
         $response->assertRedirect(route('task_statuses.index'));
     }
 
@@ -65,11 +65,11 @@ class TaskStatusTest extends TestCase
         $response = $this
             ->actingAs($this->user)
             ->patch(route('task_statuses.update', ['task_status' => $this->taskStatus]), [
-                'name' => $this->nameForTaskStatusUpdate
+                'name' => $this->nameUpdate
             ]);
 
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('task_statuses', ['name' => $this->nameForTaskStatusUpdate]);
+        $this->assertDatabaseHas('task_statuses', ['name' => $this->nameUpdate]);
         $response->assertRedirect(route('task_statuses.index'));
     }
 
