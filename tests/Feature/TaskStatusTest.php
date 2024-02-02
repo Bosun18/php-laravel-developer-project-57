@@ -31,7 +31,7 @@ class TaskStatusTest extends TestCase
     {
         $response = $this->actingAs($this->user)->get(route('task_statuses.create'));
 
-        $response->assertOk();
+        $response->assertStatus(200);
     }
 
     public function testStore(): void

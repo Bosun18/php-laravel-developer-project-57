@@ -32,7 +32,7 @@ class TaskTest extends TestCase
     {
         $response = $this->actingAs($this->user)->get(route('tasks.create'));
 
-        $response->assertOk();
+        $response->assertStatus(200);
     }
 
     /**

@@ -31,7 +31,7 @@ class LabelTest extends TestCase
     {
         $response = $this->actingAs($this->user)->get(route('labels.create'));
 
-        $response->assertOk();
+        $response->assertStatus(200);
     }
 
     public function testStore(): void
