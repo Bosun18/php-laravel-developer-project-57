@@ -36,15 +36,15 @@ class LabelTest extends TestCase
 
     public function testStore(): void
     {
-        $this->name = Label::factory()->make()->name;
+        $name = Label::factory()->make()->name;
         $response = $this
             ->actingAs($this->user)
             ->post(route('labels.store'), [
-                'name' => $this->name
+                'name' => $name
             ]);
 
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('labels', ['name' => $this->name]);
+        $this->assertDatabaseHas('labels', ['name' => $name]);
         $response->assertRedirect(route('labels.index'));
     }
 
@@ -59,15 +59,15 @@ class LabelTest extends TestCase
 
     public function testUpdate(): void
     {
-        $this->nameUpdate = Label::factory()->make()->name;
+        $nameUpdate = Label::factory()->make()->name;
         $response = $this
             ->actingAs($this->user)
             ->patch(route('labels.update', ['label' => $this->label]), [
-                'name' => $this->nameUpdate
+                'name' => $nameUpdate
             ]);
 
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('labels', ['name' => $this->nameUpdate]);
+        $this->assertDatabaseHas('labels', ['name' => $nameUpdate]);
         $response->assertRedirect(route('labels.index'));
     }
 

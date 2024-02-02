@@ -36,15 +36,15 @@ class TaskStatusTest extends TestCase
 
     public function testStore(): void
     {
-        $this->name = TaskStatus::factory()->make()->name;
+        $name = TaskStatus::factory()->make()->name;
         $response = $this
             ->actingAs($this->user)
             ->post(route('task_statuses.store'), [
-                'name' => $this->name
+                'name' => $name
             ]);
 
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('task_statuses', ['name' => $this->name]);
+        $this->assertDatabaseHas('task_statuses', ['name' => $name]);
         $response->assertRedirect(route('task_statuses.index'));
     }
 
@@ -59,15 +59,15 @@ class TaskStatusTest extends TestCase
 
     public function testUpdate(): void
     {
-        $this->nameUpdate = TaskStatus::factory()->make()->name;
+        $nameUpdate = TaskStatus::factory()->make()->name;
         $response = $this
             ->actingAs($this->user)
             ->patch(route('task_statuses.update', ['task_status' => $this->taskStatus]), [
-                'name' => $this->nameUpdate
+                'name' => $nameUpdate
             ]);
 
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('task_statuses', ['name' => $this->nameUpdate]);
+        $this->assertDatabaseHas('task_statuses', ['name' => $nameUpdate]);
         $response->assertRedirect(route('task_statuses.index'));
     }
 

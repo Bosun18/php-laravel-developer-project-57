@@ -40,7 +40,7 @@ class TaskTest extends TestCase
      */
     public function testStore(): void
     {
-        $this->newTaskData = Task::factory()->make()->only([
+        $newTaskData = Task::factory()->make()->only([
             'name',
             'description',
             'status_id',
@@ -48,10 +48,10 @@ class TaskTest extends TestCase
         ]);
         $response = $this
             ->actingAs($this->user)
-            ->post(route('tasks.store'), $this->newTaskData);
+            ->post(route('tasks.store'), $newTaskData);
 
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('tasks', $this->newTaskData);
+        $this->assertDatabaseHas('tasks', $newTaskData);
         $response->assertRedirect(route('tasks.index'));
     }
 
@@ -76,7 +76,7 @@ class TaskTest extends TestCase
      */
     public function testUpdate(): void
     {
-        $this->taskDataForUpdate = Task::factory()->make()->only([
+        $taskDataForUpdate = Task::factory()->make()->only([
             'name',
             'description',
             'status_id',
@@ -84,10 +84,10 @@ class TaskTest extends TestCase
         ]);
         $response = $this
             ->actingAs($this->user)
-            ->patch(route('tasks.update', ['task' => $this->task]), $this->taskDataForUpdate);
+            ->patch(route('tasks.update', ['task' => $this->task]), $taskDataForUpdate);
 
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('tasks', $this->taskDataForUpdate);
+        $this->assertDatabaseHas('tasks', $taskDataForUpdate);
         $response->assertRedirect(route('tasks.index'));
     }
 
