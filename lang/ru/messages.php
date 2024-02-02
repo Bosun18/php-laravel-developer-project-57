@@ -15,5 +15,6 @@ return [
     'label.deleted.error' => 'Не удалось удалить метку',
     'welcome' => 'Привет от Хекслета!',
     'description' => 'Это простой менеджер задач на Laravel',
+    'task manager' => 'Менеджер задач',
     'button' => 'Нажми меня',
 ];

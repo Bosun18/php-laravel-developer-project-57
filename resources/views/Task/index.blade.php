@@ -25,11 +25,13 @@
             </div>
 
             @auth
-                <div class="ml-auto">
-                    <a href="{{ route('tasks.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2 whitespace-nowrap">
-                        {{ __('strings.create task') }}
-                    </a>
-                </div>
+                @can('create', App\Models\Task::class)
+                    <div class="ml-auto">
+                        <a href="{{ route('tasks.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2 whitespace-nowrap">
+                            {{ __('strings.create task') }}
+                        </a>
+                    </div>
+                @endcan
             @endauth
 
         </div>
