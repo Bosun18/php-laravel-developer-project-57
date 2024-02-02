@@ -4,15 +4,12 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
-use App\Models\TaskStatus;
 use App\Models\Task;
 
 class TaskTest extends TestCase
 {
     private User $user;
     private Task $task;
-    private array $newTaskData;
-    private array $taskDataForUpdate;
 
     public function setUp(): void
     {
@@ -21,20 +18,6 @@ class TaskTest extends TestCase
         $this->user = User::factory()->create();
         $this->task = Task::factory()->create([
             'created_by_id' => $this->user->id,
-        ]);
-
-        $this->newTaskData = Task::factory()->make()->only([
-            'name',
-            'description',
-            'status_id',
-            'assigned_to_id',
-        ]);
-
-        $this->taskDataForUpdate = Task::factory()->make()->only([
-            'name',
-            'description',
-            'status_id',
-            'assigned_to_id',
         ]);
     }
 
@@ -57,6 +40,12 @@ class TaskTest extends TestCase
      */
     public function testStore(): void
     {
+        $this->newTaskData = Task::factory()->make()->only([
+            'name',
+            'description',
+            'status_id',
+            'assigned_to_id',
+        ]);
         $response = $this
             ->actingAs($this->user)
             ->post(route('tasks.store'), $this->newTaskData);
@@ -87,6 +76,12 @@ class TaskTest extends TestCase
      */
     public function testUpdate(): void
     {
+        $this->taskDataForUpdate = Task::factory()->make()->only([
+            'name',
+            'description',
+            'status_id',
+            'assigned_to_id',
+        ]);
         $response = $this
             ->actingAs($this->user)
             ->patch(route('tasks.update', ['task' => $this->task]), $this->taskDataForUpdate);

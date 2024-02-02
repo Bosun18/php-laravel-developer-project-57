@@ -12,16 +12,12 @@ class LabelTest extends TestCase
 {
     private User $user;
     private Label $label;
-    private string $name;
-    private string $nameUpdate;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
         $this->label = Label::factory()->create();
-        $this->name = Label::factory()->make()->name;
-        $this->nameUpdate = Label::factory()->make()->name;
     }
 
     public function testIndex(): void
@@ -40,6 +36,7 @@ class LabelTest extends TestCase
 
     public function testStore(): void
     {
+        $this->name = Label::factory()->make()->name;
         $response = $this
             ->actingAs($this->user)
             ->post(route('labels.store'), [
@@ -62,6 +59,7 @@ class LabelTest extends TestCase
 
     public function testUpdate(): void
     {
+        $this->nameUpdate = Label::factory()->make()->name;
         $response = $this
             ->actingAs($this->user)
             ->patch(route('labels.update', ['label' => $this->label]), [

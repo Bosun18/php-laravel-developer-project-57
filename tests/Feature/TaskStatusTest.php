@@ -11,16 +11,12 @@ class TaskStatusTest extends TestCase
 {
     private User $user;
     private TaskStatus $taskStatus;
-    private string $name;
-    private string $nameUpdate;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
         $this->taskStatus = TaskStatus::factory()->create();
-        $this->name = TaskStatus::factory()->make()->name;
-        $this->nameUpdate = TaskStatus::factory()->make()->name;
     }
 
 
@@ -40,6 +36,7 @@ class TaskStatusTest extends TestCase
 
     public function testStore(): void
     {
+        $this->name = TaskStatus::factory()->make()->name;
         $response = $this
             ->actingAs($this->user)
             ->post(route('task_statuses.store'), [
@@ -62,6 +59,7 @@ class TaskStatusTest extends TestCase
 
     public function testUpdate(): void
     {
+        $this->nameUpdate = TaskStatus::factory()->make()->name;
         $response = $this
             ->actingAs($this->user)
             ->patch(route('task_statuses.update', ['task_status' => $this->taskStatus]), [
