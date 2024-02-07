@@ -61,12 +61,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Task::class, 'assigned_to_id');
     }
-
-    /**
-     * Get the labels assigned to the user.
-     */
-    public function labels(): BelongsToMany
-    {
-        return $this->belongsToMany(Label::class, 'label_user', 'user_id', 'label_id');
-    }
 }

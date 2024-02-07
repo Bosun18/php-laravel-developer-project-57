@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Models\Task;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -21,9 +23,7 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): \Illuminate\Contracts\View\View|
-        \Illuminate\Foundation\Application|
-        \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function index(Request $request): View
     {
         $users = User::pluck('name', 'id')->all();
 
@@ -47,9 +47,7 @@ class TaskController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): \Illuminate\Contracts\View\View|
-        \Illuminate\Foundation\Application|
-        \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function create(): View
     {
         $taskStatuses = TaskStatus::select('name', 'id')->pluck('name', 'id');
         $users = User::select('name', 'id')->pluck('name', 'id');
@@ -61,7 +59,7 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTaskRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(StoreTaskRequest $request): RedirectResponse
     {
         $request->validated();
 
@@ -83,9 +81,7 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Task $task): \Illuminate\Contracts\View\View|
-        \Illuminate\Foundation\Application|
-        \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function show(Task $task): View
     {
         $labels = $task->labels;
 
@@ -95,9 +91,7 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Task $task): \Illuminate\Contracts\View\View|
-        \Illuminate\Foundation\Application|
-        \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function edit(Task $task): View
     {
         $taskStatuses = TaskStatus::all();
         $users = User::select('name', 'id')->pluck('name', 'id');
@@ -110,7 +104,7 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTaskRequest $request, Task $task): \Illuminate\Http\RedirectResponse
+    public function update(UpdateTaskRequest $request, Task $task): RedirectResponse
     {
         $request->validated();
 
@@ -131,7 +125,7 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task): \Illuminate\Http\RedirectResponse
+    public function destroy(Task $task): RedirectResponse
     {
         $task->labels()->detach();
         $task->delete();

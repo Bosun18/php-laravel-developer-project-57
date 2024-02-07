@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Label;
 use App\Http\Requests\StoreLabelRequest;
 use App\Http\Requests\UpdateLabelRequest;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class LabelController extends Controller
 {
@@ -15,9 +17,7 @@ class LabelController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): \Illuminate\Contracts\View\View|
-        \Illuminate\Foundation\Application|
-        \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function index(): View
     {
         $labels = Label::all();
         return view('Label.index', compact('labels'));
@@ -26,9 +26,7 @@ class LabelController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): \Illuminate\Contracts\View\View|
-        \Illuminate\Foundation\Application|
-        \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function create(): View
     {
         $label = new Label();
         return view('Label.create', compact('label'));
@@ -37,7 +35,7 @@ class LabelController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreLabelRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(StoreLabelRequest $request): RedirectResponse
     {
         $data = $request->validated();
 
@@ -51,9 +49,7 @@ class LabelController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Label $label): \Illuminate\Contracts\View\View|
-        \Illuminate\Foundation\Application|
-        \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function edit(Label $label): View
     {
         return view('Label.edit', compact('label'));
     }
@@ -61,7 +57,7 @@ class LabelController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateLabelRequest $request, Label $label): \Illuminate\Http\RedirectResponse
+    public function update(UpdateLabelRequest $request, Label $label): RedirectResponse
     {
         $data = $request->validated();
 
@@ -75,7 +71,7 @@ class LabelController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Label $label): \Illuminate\Http\RedirectResponse
+    public function destroy(Label $label): RedirectResponse
     {
         if ($label->tasks()->exists()) {
             flash(__('messages.label.deleted.error'))->error();
