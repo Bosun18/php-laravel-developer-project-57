@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Task;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -20,13 +21,13 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): \Illuminate\Contracts\View\View|
+    public function index(Request $request): \Illuminate\Contracts\View\View|
         \Illuminate\Foundation\Application|
         \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $users = User::pluck('name', 'id');
+        $users = User::pluck('name', 'id')->all();
 
-        $taskStatuses = TaskStatus::select('name', 'id')->pluck('name', 'id');
+        $taskStatuses = TaskStatus::select('name', 'id')->pluck('name', 'id')->all();
 
         $tasks = QueryBuilder::for(Task::class)
             ->allowedFilters([
@@ -38,15 +39,9 @@ class TaskController extends Controller
             ->orderBy('id')
             ->paginate(15);
 
-            return view('Task.index', [
-                'tasks' => $tasks,
-                'users' => $users,
-                'taskStatuses' => $taskStatuses,
-                'activeFilter' => request()->get('filter', [
-                    'status_id' => '',
-                    'assigned_to_id' => '',
-                    'created_by_id' => ''
-                ])]);
+        $filter = $request->filter ?? null;
+
+        return view('Task.index', compact('tasks', 'taskStatuses', 'users', 'filter'));
     }
 
     /**
@@ -104,7 +99,6 @@ class TaskController extends Controller
         \Illuminate\Foundation\Application|
         \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-//        $this->authorize('update', $task);
         $taskStatuses = TaskStatus::all();
         $users = User::select('name', 'id')->pluck('name', 'id');
         $taskLabels = $task->labels;
@@ -118,8 +112,6 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task): \Illuminate\Http\RedirectResponse
     {
-//        $this->authorize('update', $task);
-
         $request->validated();
 
         $data = $request->except('labels');
