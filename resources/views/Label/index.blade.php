@@ -6,11 +6,13 @@
         <h1 class="mb-5 max-w-2xl text-4xl md:text-4xl xl:text-5xl">{{ __('strings.labels') }}</h1>
 
         @auth
-            <div>
-                <a href="{{ route('labels.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    {{ __('strings.create label') }}
-                </a>
-            </div>
+            @can('create', App\Models\Label::class)
+                <div>
+                    <a href="{{ route('labels.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2 whitespace-nowrap">
+                        {{ __('strings.create label') }}
+                    </a>
+                </div>
+            @endcan
         @endauth
 
         <table class="mt-4">
@@ -35,9 +37,12 @@
                     <td>{{ $label->created_at->format('d.m.Y') }}</td>
                     <td>
                         @auth
-                            <a data-method="delete" data-confirm="{{ __('strings.are you sure') }}" class="text-red-600 hover:text-red-900" href="{{ route('labels.destroy', $label->id) }}">{{ __('strings.delete') }}</a>
-
-                            <a class="text-blue-600 hover:text-blue-900" href="{{ route('labels.edit', $label->id) }}">{{ __('strings.edit') }}</a>
+                            @can('delete', $label)
+                                <a data-method="delete" data-confirm="{{ __('strings.are you sure') }}" class="text-red-600 hover:text-red-900" href="{{ route('labels.destroy', $label->id) }}">{{ __('strings.delete') }}</a>
+                            @endcan
+                            @can('update', $label)
+                                <a class="text-blue-600 hover:text-blue-900" href="{{ route('labels.edit', $label->id) }}">{{ __('strings.edit') }}</a>
+                            @endcan
                         @endauth
                     </td>
                 </tr>

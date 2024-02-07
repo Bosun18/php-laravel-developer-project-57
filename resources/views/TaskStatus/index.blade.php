@@ -6,11 +6,13 @@
         <h1 class="mb-5 max-w-2xl text-4xl md:text-4xl xl:text-5xl">{{ __('strings.statuses') }}</h1>
 
         @auth
-            <div>
-                <a href="{{ route('task_statuses.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    {{ __('strings.create status') }}
-                </a>
-            </div>
+            @can('create', App\Models\TaskStatus::class)
+                <div>
+                    <a href="{{ route('task_statuses.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        {{ __('strings.create status') }}
+                    </a>
+                </div>
+            @endcan
         @endauth
 
         <table class="mt-4">
@@ -33,9 +35,12 @@
                     <td>{{ $taskStatus->created_at->format('d.m.Y') }}</td>
                     <td>
                         @auth
-                            <a data-method="delete" data-confirm="{{ __('strings.are you sure') }}" class="text-red-600 hover:text-red-900" href="{{ route('task_statuses.destroy', $taskStatus->id) }}">{{ __('strings.delete') }}</a>
-
-                            <a class="text-blue-600 hover:text-blue-900" href="{{ route('task_statuses.edit', $taskStatus->id) }}">{{ __('strings.edit') }}</a>
+                            @can('delete', $taskStatus)
+                                <a data-method="delete" data-confirm="{{ __('strings.are you sure') }}" class="text-red-600 hover:text-red-900" href="{{ route('task_statuses.destroy', $taskStatus->id) }}">{{ __('strings.delete') }}</a>
+                            @endcan
+                            @can('update', $taskStatus)
+                                <a class="text-blue-600 hover:text-blue-900" href="{{ route('task_statuses.edit', $taskStatus->id) }}">{{ __('strings.edit') }}</a>
+                            @endcan
                         @endauth
                     </td>
                 </tr>
