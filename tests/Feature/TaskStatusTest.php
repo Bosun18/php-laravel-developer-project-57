@@ -15,6 +15,7 @@ class TaskStatusTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        $this->seed();
         $this->user = User::factory()->create();
         $this->taskStatus = TaskStatus::factory()->create();
     }

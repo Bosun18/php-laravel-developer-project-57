@@ -16,6 +16,7 @@ class LabelTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        $this->seed();
         $this->user = User::factory()->create();
         $this->label = Label::factory()->create();
     }
